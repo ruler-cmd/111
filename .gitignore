@@ -1,0 +1,30 @@
+# Keil build outputs
+Objects/
+Listings/
+DebugConfig/
+*.uvguix.*
+*.uvoptx
+*.hex
+*.axf
+*.map
+*.o
+*.d
+*.crf
+*.dep
+*.lnp
+*.lst
+*.bak
+*.sct
+*.lib
+*.build_log.htm
+*.htm
+
+# Python
+__pycache__/
+*.pyc
+*.exe
+*.raw
+
+# Local captures and temporary files
+*.log
+*.tmp

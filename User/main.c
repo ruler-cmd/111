@@ -1,17 +1,33 @@
-#include "stm32f10x.h"                  // Device header
+#include "stm32f10x.h"
+#include "Delay.h"
+#include "OLED.h"
+#include "Key.h"
+#include "LED.h"
+#include "menu.h"
+#include "UART.h"
+
 int main(void)
 {
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
+    OLED_Init();
+    Key_Init();
+    LED_Init();
+    UART_Init();
+    Menu_Init();
 
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA,&GPIO_InitStructure);
-	GPIO_ResetBits(GPIOA,GPIO_Pin_0);
-	while(1)
-		
-	{
+    /* Draw the power-on main menu immediately. */
+    Menu_Refresh();
 
-	}	
+    while (1) {
+        KeyCode key = Key_Scan();
+
+        UART_Process();
+
+        if (key != KEY_NONE) {
+            Menu_HandleKey(key);
+        }
+
+        Menu_Tick();
+        Menu_Refresh();
+        Delay_ms(10);
+    }
 }
